@@ -14,6 +14,7 @@ const createWindow = () => {
         resizable: false,
         fullscreen: true,
         transparent: true,
+        type: 'toolbar',
         webPreferences: {
             enableRemoteModule: true,
             preload: path.join(__dirname, 'preload.js'),
@@ -23,7 +24,6 @@ const createWindow = () => {
 
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
     mainWindow.setIgnoreMouseEvents(true, { forward: true });
-
     mainWindow.setAlwaysOnTop(true, 'screen-saver');
     mainWindow.setVisibleOnAllWorkspaces(true);
     mainWindow.setSkipTaskbar(true);
