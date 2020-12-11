@@ -43,8 +43,8 @@ let mousePosition = { x: 0, y: 0 };
 // }
 
 function setPosition(e) {
-    mousePosition.x = e.clientX;
-    mousePosition.y = e.clientY;
+    mousePosition.x = e.screenX;
+    mousePosition.y = e.screenY;
 }
 // board.addEventListener('mousedown', (e) => {
 //     mousePosition.x = e.clientX;
