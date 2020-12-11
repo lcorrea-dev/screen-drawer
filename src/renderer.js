@@ -1,5 +1,3 @@
-const { read } = require('fs');
-
 let isUsingTool = false;
 
 const toolBar = document.getElementById('toolBar');
@@ -30,6 +28,10 @@ penTool.addEventListener('click', () => {
 });
 
 const board = document.getElementById('board');
+
+board.width = document.documentElement.clientWidth;
+board.height = document.documentElement.clientHeight;
+
 let boardContext = board.getContext('2d');
 // boardContext.fillStyle = '#FF0000';
 
