@@ -57,6 +57,58 @@ document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
 document.addEventListener('mouseenter', setPosition);
 
+document.addEventListener('touchmove', drawTouch);
+// document.addEventListener('touchstart', handleStartTouch, false);
+document.addEventListener('touchend', handleEnd, false);
+// document.addEventListener('touchcancel', handleCancel, false);
+// document.addEventListener('touchmove', handleMove, false);
+// document.addEventListener('touchstart', setPosition);
+
+// TODO: HANDLE MORE THAN 1 FINGER TOUCH
+// https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+
+let ongoingTouches = [];
+function handleEnd(evt) {
+    ongoingTouches = [];
+}
+
+function copyTouch({ identifier, pageX, pageY }) {
+    return { identifier, pageX, pageY };
+}
+
+function drawTouch(evt) {
+    evt.preventDefault();
+    var touches = evt.changedTouches;
+    console.log(touches.length, touches);
+    let x = touches[0].screenX;
+    let y = touches[0].screenY;
+
+    boardContext.beginPath(); // begin
+
+    boardContext.lineWidth = 1;
+    boardContext.lineCap = 'round';
+    boardContext.strokeStyle = '#c0392b';
+    if (ongoingTouches.length == 0) {
+        ongoingTouches.push(copyTouch(touches[0]));
+        return;
+    }
+
+    boardContext.moveTo(ongoingTouches[0].pageX, ongoingTouches[0].pageY); // from
+
+    // touches = evt.changedTouches;
+
+    // x = touches[0].screenX;
+    // y = touches[0].screenY;
+    boardContext.lineTo(x, y); // to
+    ongoingTouches = [];
+    ongoingTouches.push(copyTouch(touches[0]));
+
+    const a = document.getElementById('positionh2');
+    a.innerText = `x = ${touches.pageX} y =  ${touches.pageY}`;
+
+    boardContext.stroke(); // draw it!
+}
+
 function draw(e) {
     // mouse left button must be pressed
     if (e.buttons !== 1) return;
@@ -75,5 +127,5 @@ function draw(e) {
     a.innerText = `x = ${mousePosition.x} y =  ${mousePosition.y}`;
 
     boardContext.stroke(); // draw it!
-    console.log(mousePosition);
+    // console.log(mousePosition);
 }
