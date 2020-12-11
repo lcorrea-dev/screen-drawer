@@ -65,7 +65,7 @@ function draw(e) {
     boardContext.lineCap = 'round';
     boardContext.strokeStyle = '#c0392b';
 
-    boardContext.moveTo(500.x, mousePosition.y); // from
+    boardContext.moveTo(mousePosition.x, mousePosition.y); // from
     setPosition(e);
     boardContext.lineTo(mousePosition.x, mousePosition.y); // to
 
