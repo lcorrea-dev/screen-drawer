@@ -35,14 +35,7 @@ board.height = document.documentElement.clientHeight;
 let boardContext = board.getContext('2d');
 // boardContext.fillStyle = '#FF0000';
 
-// board.style.backgroundColor = 'blue';
-
 let mousePosition = { x: 0, y: 0 };
-
-// function setPosition(e) {
-//     mousePosition.x = e.clientX / 5;
-//     mousePosition.y = e.clientY / 5.7;
-// }
 
 const cleanBoardTool = document.getElementById('cleanBoardTool');
 cleanBoardTool.addEventListener('click', () => {
@@ -53,10 +46,6 @@ function setPosition(e) {
     mousePosition.x = e.screenX;
     mousePosition.y = e.screenY;
 }
-// board.addEventListener('mousedown', (e) => {
-//     mousePosition.x = e.clientX;
-//     mousePosition.y = e.clientY;
-// });
 
 document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
@@ -94,19 +83,28 @@ function drawTouch(evt) {
     boardContext.lineCap = 'round';
     boardContext.strokeStyle = '#c0392b';
     if (ongoingTouches.length == 0) {
-        ongoingTouches.push(copyTouch(touches[0]));
+        for (let i = 0; i < touches.length; i++) {
+            ongoingTouches.push(copyTouch(touches[i]));
+        }
         return;
     }
+    for (let i = 0; i < ongoingTouches.length; i++) {
+        boardContext.moveTo(ongoingTouches[i].pageX, ongoingTouches[i].pageY); // from
+        x = touches[i].screenX;
+        y = touches[i].screenY;
 
-    boardContext.moveTo(ongoingTouches[0].pageX, ongoingTouches[0].pageY); // from
+        boardContext.lineTo(x, y); // to
+    }
 
     // touches = evt.changedTouches;
 
     // x = touches[0].screenX;
     // y = touches[0].screenY;
-    boardContext.lineTo(x, y); // to
     ongoingTouches = [];
-    ongoingTouches.push(copyTouch(touches[0]));
+
+    for (let i = 0; i < touches.length; i++) {
+        ongoingTouches.push(copyTouch(touches[i]));
+    }
 
     const a = document.getElementById('positionh2');
     a.innerText = `x = ${touches.pageX} y =  ${touches.pageY}`;
