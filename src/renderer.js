@@ -5,6 +5,18 @@ const cleanBoardTool = document.getElementById('cleanBoardTool');
 const canvas = document.getElementById('canvas');
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight;
+const penSizeInput = document.getElementById('penSizeInput');
+var penSize = 1;
+const penColorInput = document.getElementById('penColorInput');
+var penColor = '#ff0000';
+
+penColorInput.addEventListener('input', () => {
+    penColor = penColorInput.value;
+});
+
+penSizeInput.addEventListener('input', () => {
+    penSize = penSizeInput.value;
+});
 
 // states handler
 let isUsingTool = false;
@@ -66,9 +78,9 @@ function drawTouch(evt) {
 
     canvasContext.beginPath(); // begin
 
-    canvasContext.lineWidth = 1;
+    canvasContext.lineWidth = penSize;
     canvasContext.lineCap = 'round';
-    canvasContext.strokeStyle = '#c0392b';
+    canvasContext.strokeStyle = penColor;
     if (ongoingTouches.length == 0) {
         for (let i = 0; i < touches.length; i++) {
             ongoingTouches.push(copyTouch(touches[i]));
@@ -99,22 +111,20 @@ function drawTouch(evt) {
 }
 
 function draw(e) {
-    // mouse left button must be pressed
     if (e.buttons !== 1) return;
 
-    canvasContext.beginPath(); // begin
+    canvasContext.beginPath();
 
-    canvasContext.lineWidth = 1;
+    canvasContext.lineWidth = penSize;
     canvasContext.lineCap = 'round';
-    canvasContext.strokeStyle = '#c0392b';
+    canvasContext.strokeStyle = penColor;
 
-    canvasContext.moveTo(mousePosition.x, mousePosition.y); // from
+    canvasContext.moveTo(mousePosition.x, mousePosition.y);
     setPosition(e);
-    canvasContext.lineTo(mousePosition.x, mousePosition.y); // to
+    canvasContext.lineTo(mousePosition.x, mousePosition.y);
 
     const a = document.getElementById('positionh2');
     a.innerText = `x = ${mousePosition.x} y =  ${mousePosition.y}`;
 
-    canvasContext.stroke(); // draw it!
-    // console.log(mousePosition);
+    canvasContext.stroke();
 }

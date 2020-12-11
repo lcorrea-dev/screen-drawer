@@ -36,4 +36,15 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    // const toolProperties = document.querySelectorAll('.tool-property');
+    // toolProperties.forEach((toolProperty) => {
+    //     toolProperty.addEventListener('mousedown', () => {
+    //         mainWindow.setIgnoreMouseEvents(false);
+    //         isUsingTool = true;
+    //     });
+    //     toolProperty.addEventListener('mouseup', () => {
+    //         mainWindow.setIgnoreMouseEvents(true, { forward: true });
+    //         isUsingTool = false;
+    //     });
+    // });
 });

@@ -13,7 +13,7 @@ body {
     position: absolute;
     background-color: rgba(219, 223, 0, 0.5);
     width: 100px;
-    height: 50px;
+    height: auto;
     margin: auto;
     z-index: 1000;
 }
@@ -34,4 +34,8 @@ body {
 
 .emoji {
     font-size: 32px;
+}
+
+.slidecontainer {
+    width: 100%;
 }
