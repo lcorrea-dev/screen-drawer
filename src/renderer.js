@@ -1,8 +1,19 @@
-let isUsingTool = false;
-
 const toolBar = document.getElementById('toolBar');
-
 const tools = document.querySelectorAll('.tool-btn');
+const penTool = document.getElementById('penTool');
+const cleanBoardTool = document.getElementById('cleanBoardTool');
+const canvas = document.getElementById('canvas');
+canvas.width = document.documentElement.clientWidth;
+canvas.height = document.documentElement.clientHeight;
+
+// states handler
+let isUsingTool = false;
+let isUsingPenTool = false;
+//
+let canvasContext = canvas.getContext('2d');
+let mousePosition = { x: 0, y: 0 };
+let ongoingTouches = [];
+
 tools.forEach((tool) => {
     tool.addEventListener('click', () => {
         if (!isUsingTool) {
@@ -13,33 +24,10 @@ tools.forEach((tool) => {
     });
 });
 
-let isUsingPenTool = false;
-let canDraw = false;
-const penTool = document.getElementById('penTool');
-penTool.addEventListener('click', () => {
-    if (!isUsingPenTool) {
-        canDraw = true;
+penTool.addEventListener('click', () => (isUsingTool ? false : true));
 
-        isUsingPenTool = true;
-    } else {
-        canDraw = false;
-        isUsingPenTool = false;
-    }
-});
-
-const board = document.getElementById('board');
-
-board.width = document.documentElement.clientWidth;
-board.height = document.documentElement.clientHeight;
-
-let boardContext = board.getContext('2d');
-// boardContext.fillStyle = '#FF0000';
-
-let mousePosition = { x: 0, y: 0 };
-
-const cleanBoardTool = document.getElementById('cleanBoardTool');
 cleanBoardTool.addEventListener('click', () => {
-    boardContext.clearRect(0, 0, board.width, board.height);
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 });
 
 function setPosition(e) {
@@ -61,7 +49,6 @@ document.addEventListener('touchend', handleEnd, false);
 // TODO: HANDLE MORE THAN 1 FINGER TOUCH
 // https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
 
-let ongoingTouches = [];
 function handleEnd(evt) {
     ongoingTouches = [];
 }
@@ -77,11 +64,11 @@ function drawTouch(evt) {
     let x = touches[0].screenX;
     let y = touches[0].screenY;
 
-    boardContext.beginPath(); // begin
+    canvasContext.beginPath(); // begin
 
-    boardContext.lineWidth = 1;
-    boardContext.lineCap = 'round';
-    boardContext.strokeStyle = '#c0392b';
+    canvasContext.lineWidth = 1;
+    canvasContext.lineCap = 'round';
+    canvasContext.strokeStyle = '#c0392b';
     if (ongoingTouches.length == 0) {
         for (let i = 0; i < touches.length; i++) {
             ongoingTouches.push(copyTouch(touches[i]));
@@ -89,10 +76,10 @@ function drawTouch(evt) {
         return;
     }
     for (let i = 0; i < ongoingTouches.length; i++) {
-        boardContext.moveTo(ongoingTouches[i].pageX, ongoingTouches[i].pageY); // from
+        canvasContext.moveTo(ongoingTouches[i].pageX, ongoingTouches[i].pageY); // from
         x = touches[i].screenX;
         y = touches[i].screenY;
-        boardContext.lineTo(x, y); // to
+        canvasContext.lineTo(x, y); // to
     }
 
     // touches = evt.changedTouches;
@@ -108,26 +95,26 @@ function drawTouch(evt) {
     const a = document.getElementById('positionh2');
     a.innerText = `x = ${touches.pageX} y =  ${touches.pageY}`;
 
-    boardContext.stroke(); // draw it!
+    canvasContext.stroke(); // draw it!
 }
 
 function draw(e) {
     // mouse left button must be pressed
     if (e.buttons !== 1) return;
 
-    boardContext.beginPath(); // begin
+    canvasContext.beginPath(); // begin
 
-    boardContext.lineWidth = 1;
-    boardContext.lineCap = 'round';
-    boardContext.strokeStyle = '#c0392b';
+    canvasContext.lineWidth = 1;
+    canvasContext.lineCap = 'round';
+    canvasContext.strokeStyle = '#c0392b';
 
-    boardContext.moveTo(mousePosition.x, mousePosition.y); // from
+    canvasContext.moveTo(mousePosition.x, mousePosition.y); // from
     setPosition(e);
-    boardContext.lineTo(mousePosition.x, mousePosition.y); // to
+    canvasContext.lineTo(mousePosition.x, mousePosition.y); // to
 
     const a = document.getElementById('positionh2');
     a.innerText = `x = ${mousePosition.x} y =  ${mousePosition.y}`;
 
-    boardContext.stroke(); // draw it!
+    canvasContext.stroke(); // draw it!
     // console.log(mousePosition);
 }
