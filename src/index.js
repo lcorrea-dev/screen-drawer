@@ -29,9 +29,7 @@ const createWindow = () => {
     mainWindow.setIgnoreMouseEvents(true, { forward: true });
 
     mainWindow.setAlwaysOnTop(true, 'screen-saver');
-    // mainWindow.
     mainWindow.setVisibleOnAllWorkspaces(true);
-    // mainWindow.setFullScreenable(false);
 };
 
 const createTray = () => {

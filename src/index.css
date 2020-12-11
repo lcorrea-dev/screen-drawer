@@ -1,16 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
         Helvetica, Arial, sans-serif;
     /* margin: auto; */
     /* max-width: 38rem; */
-    padding: 2rem;
+    /* padding: 2rem; */
     background-color: rgba(10, 10, 10, 0.5);
 }
 
 .toolbar {
+    position: absolute;
     background-color: rgba(219, 223, 0, 0.5);
-    width: 100px;
-    height: 20px;
+    width: 1000px;
+    height: 100px;
     margin: auto;
-    margin-top: 400px;
+    z-index: 1000;
+}
+
+#board {
+    position: absolute;
+    z-index: -100;
+    /* height: 1080px;
+    width: 1920px; */
 }
