@@ -10,6 +10,7 @@ var penSize = 1;
 const penColorInput = document.getElementById('penColorInput');
 var penColor = '#ff0000';
 
+const currentTool = document.getElementById('currentTool');
 penColorInput.addEventListener('input', () => {
     penColor = penColorInput.value;
 });
@@ -19,24 +20,23 @@ penSizeInput.addEventListener('input', () => {
 });
 
 // states handler
-let isUsingTool = false;
-let isUsingPenTool = false;
-//
+let isUsingTool = { name: '' };
 let canvasContext = canvas.getContext('2d');
 let mousePosition = { x: 0, y: 0 };
 let ongoingTouches = [];
 
-tools.forEach((tool) => {
+const canBeActiveTools = [penTool, rectangleTool];
+
+canBeActiveTools.forEach((tool) => {
     tool.addEventListener('click', () => {
-        if (!isUsingTool) {
-            isUsingTool = true;
+        if (isUsingTool.name == '') {
+            isUsingTool.name = tool.id;
         } else {
-            isUsingTool = false;
+            isUsingTool.name = '';
         }
+        currentTool.innerText = isUsingTool.name;
     });
 });
-
-penTool.addEventListener('click', () => (isUsingTool ? false : true));
 
 cleanBoardTool.addEventListener('click', () => {
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
@@ -47,8 +47,24 @@ function setPosition(e) {
     mousePosition.y = e.screenY;
 }
 
+let mouseForRectanglePosition = { startx: 0, starty: 0, endx: 0, endy: 0 };
+
+function setInitialPosition(e) {
+    mouseForRectanglePosition.startx = e.screenX;
+    mouseForRectanglePosition.starty = e.screenY;
+}
+
+function setEndPosition(e) {
+    mouseForRectanglePosition.endx = e.screenX;
+    mouseForRectanglePosition.endy = e.screenY;
+}
+
 document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
+
+document.addEventListener('mousedown', setInitialPosition);
+document.addEventListener('mouseup', drawRectangle);
+
 document.addEventListener('mouseenter', setPosition);
 
 document.addEventListener('touchmove', drawTouch);
@@ -94,10 +110,6 @@ function drawTouch(evt) {
         canvasContext.lineTo(x, y); // to
     }
 
-    // touches = evt.changedTouches;
-
-    // x = touches[0].screenX;
-    // y = touches[0].screenY;
     ongoingTouches = [];
 
     for (let i = 0; i < touches.length; i++) {
@@ -112,19 +124,37 @@ function drawTouch(evt) {
 
 function draw(e) {
     if (e.buttons !== 1) return;
+    if (isUsingTool.name == 'penTool') {
+        canvasContext.beginPath();
 
-    canvasContext.beginPath();
+        canvasContext.lineWidth = penSize;
+        canvasContext.lineCap = 'round';
+        canvasContext.strokeStyle = penColor;
 
-    canvasContext.lineWidth = penSize;
-    canvasContext.lineCap = 'round';
-    canvasContext.strokeStyle = penColor;
+        canvasContext.moveTo(mousePosition.x, mousePosition.y);
+        setPosition(e);
+        canvasContext.lineTo(mousePosition.x, mousePosition.y);
 
-    canvasContext.moveTo(mousePosition.x, mousePosition.y);
-    setPosition(e);
-    canvasContext.lineTo(mousePosition.x, mousePosition.y);
+        const a = document.getElementById('positionh2');
+        a.innerText = `x = ${mousePosition.x} y =  ${mousePosition.y}`;
 
-    const a = document.getElementById('positionh2');
-    a.innerText = `x = ${mousePosition.x} y =  ${mousePosition.y}`;
+        canvasContext.stroke();
+    }
+}
 
-    canvasContext.stroke();
+function drawRectangle(e) {
+    console.log(isUsingTool.name);
+    if (isUsingTool.name == 'rectangleTool') {
+        setEndPosition(e);
+        console.log(mouseForRectanglePosition);
+        canvasContext.lineWidth = penSize;
+        canvasContext.lineCap = 'round';
+
+        let { startx, starty, endx, endy } = mouseForRectanglePosition;
+        endx -= startx;
+        endy -= starty;
+        // console.log(startx, starty);
+        canvasContext.strokeRect(startx, starty, endx, endy);
+        mouseForRectanglePosition = { startx: 0, starty: 0, endx: 0, endy: 0 };
+    }
 }
