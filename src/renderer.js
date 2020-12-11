@@ -92,7 +92,6 @@ function drawTouch(evt) {
         boardContext.moveTo(ongoingTouches[i].pageX, ongoingTouches[i].pageY); // from
         x = touches[i].screenX;
         y = touches[i].screenY;
-
         boardContext.lineTo(x, y); // to
     }
 

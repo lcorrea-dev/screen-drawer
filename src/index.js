@@ -30,6 +30,7 @@ const createWindow = () => {
 
     mainWindow.setAlwaysOnTop(true, 'screen-saver');
     mainWindow.setVisibleOnAllWorkspaces(true);
+    mainWindow.setSkipTaskbar(true);
 };
 
 const createTray = () => {
