@@ -1,6 +1,9 @@
 const toolBar = document.getElementById('toolBar');
 const tools = document.querySelectorAll('.tool-btn');
 const penTool = document.getElementById('penTool');
+const rectangleTool = document.getElementById('rectangleTool');
+const eraserTool = document.getElementById('eraserTool');
+
 const cleanBoardTool = document.getElementById('cleanBoardTool');
 const canvas = document.getElementById('canvas');
 canvas.width = document.documentElement.clientWidth;
@@ -25,7 +28,7 @@ let canvasContext = canvas.getContext('2d');
 let mousePosition = { x: 0, y: 0 };
 let ongoingTouches = [];
 
-const canBeActiveTools = [penTool, rectangleTool];
+const canBeActiveTools = [penTool, rectangleTool, eraserTool];
 
 canBeActiveTools.forEach((tool) => {
     tool.addEventListener('click', () => {
@@ -58,9 +61,25 @@ function setEndPosition(e) {
     mouseForRectanglePosition.endx = e.screenX;
     mouseForRectanglePosition.endy = e.screenY;
 }
-
-document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', setPosition);
+document.addEventListener('mousemove', draw);
+// document.addEventListener('mousedown', erase);
+document.addEventListener('mousemove', erase);
+
+function erase(e) {
+    if (isUsingTool.name == 'eraserTool') {
+        if (e.buttons !== 1) return;
+
+        setPosition(e);
+        canvasContext.clearRect(
+            mousePosition.x,
+            mousePosition.y,
+            penSize,
+            penSize
+        );
+        setPosition(e);
+    }
+}
 
 document.addEventListener('mousedown', setInitialPosition);
 document.addEventListener('mouseup', drawRectangle);
@@ -143,7 +162,6 @@ function draw(e) {
 }
 
 function drawRectangle(e) {
-    console.log(isUsingTool.name);
     if (isUsingTool.name == 'rectangleTool') {
         setEndPosition(e);
         console.log(mouseForRectanglePosition);
@@ -153,7 +171,7 @@ function drawRectangle(e) {
         let { startx, starty, endx, endy } = mouseForRectanglePosition;
         endx -= startx;
         endy -= starty;
-        // console.log(startx, starty);
+        console.log(startx, starty, endx, endy);
         canvasContext.strokeRect(startx, starty, endx, endy);
         mouseForRectanglePosition = { startx: 0, starty: 0, endx: 0, endy: 0 };
     }
