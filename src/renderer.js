@@ -44,6 +44,11 @@ let mousePosition = { x: 0, y: 0 };
 //     mousePosition.y = e.clientY / 5.7;
 // }
 
+const cleanBoardTool = document.getElementById('cleanBoardTool');
+cleanBoardTool.addEventListener('click', () => {
+    boardContext.clearRect(0, 0, board.width, board.height);
+});
+
 function setPosition(e) {
     mousePosition.x = e.screenX;
     mousePosition.y = e.screenY;
