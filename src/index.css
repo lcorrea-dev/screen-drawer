@@ -29,6 +29,11 @@ body {
     z-index: -100;
 }
 
+#pointerCanvas {
+    position: absolute;
+    z-index: -50;
+}
+
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;

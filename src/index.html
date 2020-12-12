@@ -13,7 +13,7 @@
         <div id="toolBar"
              class="toolbar">
             <div class="tool">
-                <button class="tool-btn"
+                <button class="tool-btn unselectable"
                         id="penTool">
                     <img class="icon"
                          src="./img/pen-icon.png"></img></button>
@@ -26,6 +26,7 @@
                        max="50"
                        value="1"
                        class="slider tool-property"
+                       unselectable
                        id="penSizeInput">
             </div>
             <div>
@@ -36,28 +37,29 @@
                        max="10"
                        value="10"
                        class="slider tool-property"
+                       unselectable
                        id="penOpacityInput">
             </div>
             <div>
                 <input type="color"
                        id="penColorInput"
                        value="#ff0000"
-                       class="inactive-tool-btn tool-property">
+                       class="inactive-tool-btn tool-property unselectable">
             </div>
             <div class="tool">
                 <button id="cleanBoardTool"
-                        class="inactive-tool-btn">
+                        class="inactive-tool-btn unselectable">
                     <img class="icon"
                          src="./img/clean-icon.png"></img></button>
             </div>
             <div class="tool">
-                <button class="tool-btn"
+                <button class="tool-btn unselectable"
                         id="eraserTool">
                     <img class="icon"
                          src="./img/eraser-icon.png"></img></button>
             </div>
             <div class="tool">
-                <button class="tool-btn"
+                <button class="tool-btn unselectable"
                         id="rectangleTool">
                     <img class="icon"
                          src="./img/rectangle-icon.png"></img></button>
@@ -67,14 +69,12 @@
                 class="unselectable">
                 a
             </h2>
-            <h2 id="currentTool"
-                class="unselectable">
-                a
-            </h2>
+            <p id="currentTool"
+               class="unselectable">
+            </p>
         </div>
-        <canvas width=1000
-                height=500
-                id="canvas">
+        <canvas id="pointerCanvas"></canvas>
+        <canvas id="canvas">
 
         </canvas>
     </body>

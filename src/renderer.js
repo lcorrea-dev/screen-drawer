@@ -6,6 +6,7 @@ const eraserTool = document.getElementById('eraserTool');
 
 const cleanBoardTool = document.getElementById('cleanBoardTool');
 const canvas = document.getElementById('canvas');
+
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight;
 const penSizeInput = document.getElementById('penSizeInput');
@@ -73,6 +74,8 @@ function setEndPosition(e) {
     mouseForRectanglePosition.endy = e.screenY;
 }
 document.addEventListener('mousedown', setPosition);
+// document.addEventListener('mousemove', setPosition);
+
 document.addEventListener('mousemove', draw);
 // document.addEventListener('mousedown', erase);
 document.addEventListener('mousemove', erase);
@@ -83,8 +86,8 @@ function erase(e) {
 
         setPosition(e);
         canvasContext.clearRect(
-            mousePosition.x,
-            mousePosition.y,
+            mousePosition.x - penSize / 2,
+            mousePosition.y - penSize / 2,
             penSize,
             penSize
         );
@@ -169,6 +172,7 @@ function draw(e) {
         a.innerText = `x = ${mousePosition.x} y =  ${mousePosition.y}`;
 
         canvasContext.stroke();
+        requestAnimationFrame(draw);
     }
 }
 
@@ -189,3 +193,72 @@ function drawRectangle(e) {
         mouseForRectanglePosition = { startx: 0, starty: 0, endx: 0, endy: 0 };
     }
 }
+
+//
+
+let pointerPosition = { x: 0, y: 0 };
+
+function setPositionPointer(e) {
+    pointerPosition.x = e.screenX;
+    pointerPosition.y = e.screenY;
+}
+const pointerCanvas = document.getElementById('pointerCanvas');
+pointerCanvas.width = document.documentElement.clientWidth;
+pointerCanvas.height = document.documentElement.clientHeight;
+
+const pointerCanvasContext = pointerCanvas.getContext('2d');
+document.addEventListener('mouseenter', setPositionPointer);
+
+document.addEventListener('mousedown', setPositionPointer);
+
+document.addEventListener('mousemove', setPositionPointer);
+
+function updatePointerCanvas() {
+    pointerCanvasContext.clearRect(
+        0,
+        0,
+        pointerCanvas.width,
+        pointerCanvas.height
+    );
+
+    pointerCanvasContext.beginPath();
+    if (isUsingTool.name == 'eraserTool') {
+        pointerCanvasContext.rect(
+            pointerPosition.x - penSize / 2,
+            pointerPosition.y - penSize / 2,
+            penSize,
+            penSize
+        );
+        pointerCanvasContext.fillStyle = 'white';
+
+        pointerCanvasContext.strokeStyle = 'black';
+        if (isUsingTool.name !== '') {
+            pointerCanvasContext.fill();
+
+            pointerCanvasContext.stroke();
+        }
+        requestAnimationFrame(updatePointerCanvas);
+    } else {
+        pointerCanvasContext.arc(
+            pointerPosition.x,
+            pointerPosition.y,
+            penSize / 2,
+            0,
+            2 * Math.PI,
+            true
+        );
+        pointerCanvasContext.fillStyle = penColor;
+        pointerCanvasContext.strokeStyle = 'black';
+        if (isUsingTool.name !== '') {
+            pointerCanvasContext.fill();
+
+            pointerCanvasContext.stroke();
+        }
+        requestAnimationFrame(updatePointerCanvas);
+        // pointerCanvasContext.fillStyle = '#FF6A6A';
+        // pointerCanvasContext.fill();
+    }
+}
+updatePointerCanvas();
+
+//
