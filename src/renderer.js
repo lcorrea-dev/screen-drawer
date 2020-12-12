@@ -19,6 +19,7 @@ var penColor = '#ff0000';
 const currentTool = document.getElementById('currentTool');
 penColorInput.addEventListener('input', () => {
     penColor = penColorInput.value;
+    canvasContext.strokeStyle = penColor;
 });
 
 penSizeInput.addEventListener('input', () => {
