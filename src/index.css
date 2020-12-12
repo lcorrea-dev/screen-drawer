@@ -11,11 +11,17 @@ body {
 
 .toolbar {
     position: absolute;
-    background-color: rgba(219, 223, 0, 0.5);
-    width: 100px;
+    background-color: rgba(219, 223, 0, 0.3);
+    width: 50px;
     height: auto;
     margin: auto;
     z-index: 1000;
+}
+
+.tool-btn,
+.inactive-tool-btn {
+    width: 100%;
+    min-height: 36px;
 }
 
 #canvas {
@@ -36,6 +42,11 @@ body {
     font-size: 32px;
 }
 
-.slidecontainer {
+.icon {
+    width: 100%;
+    height: 100%;
+}
+
+.slider {
     width: 100%;
 }

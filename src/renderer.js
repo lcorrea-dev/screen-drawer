@@ -17,6 +17,7 @@ const penColorInput = document.getElementById('penColorInput');
 var penColor = '#ff0000';
 
 const currentTool = document.getElementById('currentTool');
+
 penColorInput.addEventListener('input', () => {
     penColor = penColorInput.value;
     canvasContext.strokeStyle = penColor;
@@ -173,6 +174,8 @@ function draw(e) {
 
 function drawRectangle(e) {
     if (isUsingTool.name == 'rectangleTool') {
+        canvasContext.strokeStyle = penColor;
+
         setEndPosition(e);
         console.log(mouseForRectanglePosition);
         canvasContext.lineWidth = penSize;

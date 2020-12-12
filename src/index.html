@@ -9,15 +9,18 @@
     </head>
 
     <body>
+
         <div id="toolBar"
              class="toolbar">
             <div class="tool">
                 <button class="tool-btn"
                         id="penTool">
-                    <span class="emoji">🧨</span></button>
-
+                    <img class="icon"
+                         src="./img/pen-icon.png"></img></button>
             </div>
             <div>
+                <label for="penSizeInput"
+                       class="unselectable">Size</label>
                 <input type="range"
                        min="1"
                        max="50"
@@ -26,6 +29,8 @@
                        id="penSizeInput">
             </div>
             <div>
+                <label for="penOpacityInput"
+                       class="unselectable">Opacity</label>
                 <input type="range"
                        min="0"
                        max="10"
@@ -33,22 +38,29 @@
                        class="slider tool-property"
                        id="penOpacityInput">
             </div>
-            <input type="color"
-                   id="penColorInput"
-                   value="#ff0000">
+            <div>
+                <input type="color"
+                       id="penColorInput"
+                       value="#ff0000"
+                       class="inactive-tool-btn tool-property">
+            </div>
             <div class="tool">
-                <button id="cleanBoardTool">
-                    <span class="emoji">✨</span></button>
+                <button id="cleanBoardTool"
+                        class="inactive-tool-btn">
+                    <img class="icon"
+                         src="./img/clean-icon.png"></img></button>
             </div>
             <div class="tool">
                 <button class="tool-btn"
                         id="eraserTool">
-                    <span class="emoji">🗑</span></button>
+                    <img class="icon"
+                         src="./img/eraser-icon.png"></img></button>
             </div>
             <div class="tool">
                 <button class="tool-btn"
                         id="rectangleTool">
-                    <span class="emoji">🔳</span></button>
+                    <img class="icon"
+                         src="./img/rectangle-icon.png"></img></button>
 
             </div>
             <h2 id="positionh2"
