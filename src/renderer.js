@@ -9,6 +9,9 @@ const canvas = document.getElementById('canvas');
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight;
 const penSizeInput = document.getElementById('penSizeInput');
+const penOpacityInput = document.getElementById('penOpacityInput');
+var penOpacity = 1;
+
 var penSize = 1;
 const penColorInput = document.getElementById('penColorInput');
 var penColor = '#ff0000';
@@ -20,6 +23,12 @@ penColorInput.addEventListener('input', () => {
 
 penSizeInput.addEventListener('input', () => {
     penSize = penSizeInput.value;
+});
+
+penOpacityInput.addEventListener('input', () => {
+    penOpacity = penOpacityInput.value;
+
+    canvasContext.globalAlpha = penOpacity / 10 || 0;
 });
 
 // states handler
