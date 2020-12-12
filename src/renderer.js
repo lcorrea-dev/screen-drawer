@@ -81,10 +81,11 @@ document.addEventListener('mousemove', draw);
 document.addEventListener('mousemove', erase);
 
 function erase(e) {
+    // setPosition(e);
+
     if (isUsingTool.name == 'eraserTool') {
         if (e.buttons !== 1) return;
 
-        setPosition(e);
         canvasContext.clearRect(
             mousePosition.x - penSize / 2,
             mousePosition.y - penSize / 2,
@@ -92,6 +93,7 @@ function erase(e) {
             penSize
         );
         setPosition(e);
+        requestAnimationFrame(erase());
     }
 }
 
